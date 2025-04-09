@@ -1,0 +1,39 @@
+{
+  "name": "prct10-express-funko-app-amartinlin",
+  "version": "1.0.0",
+  "description": "[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/HxXSUBio) [![Open in Codespaces](https://classroom.github.com/assets/launch-codespace-2972f46106e565e64193e422d61a12cf1da4916b45550586e14ef0a7c637dd04.svg)](https://classroom.github.com/open-in-codespaces?assignment_repo_id=19092493)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc-watch --onSuccess \"node dist/modi/Operations.js\"",
+    "doc": "typedoc",
+    "test": "vitest run",
+    "onetest": "vitest run test/modi",
+    "testmodi": "vitest run test/modi",
+    "testpract7": "vitest run test/practica7modi",
+    "coverage": "vitest run --coverage"
+  },
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ULL-ESIT-INF-DSI-2425/prct10-express-funko-app-AmartinLin.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ULL-ESIT-INF-DSI-2425/prct10-express-funko-app-AmartinLin/issues"
+  },
+  "homepage": "https://github.com/ULL-ESIT-INF-DSI-2425/prct10-express-funko-app-AmartinLin#readme",
+  "devDependencies": {
+    "@eslint/js": "^9.24.0",
+    "@vitest/coverage-v8": "^3.1.1",
+    "eslint": "^9.24.0",
+    "eslint-config-prettier": "^10.1.1",
+    "eslint-plugin-tsdoc": "^0.4.0",
+    "globals": "^16.0.0",
+    "prettier": "^3.5.3",
+    "typedoc": "^0.28.2",
+    "typescript-eslint": "^8.29.1",
+    "vitest": "^3.1.1"
+  }
+}
