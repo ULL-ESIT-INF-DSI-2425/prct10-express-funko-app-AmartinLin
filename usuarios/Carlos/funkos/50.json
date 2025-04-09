@@ -1,0 +1,12 @@
+{
+  "id": 50,
+  "name": "roman",
+  "description": "invente",
+  "type": "Pop!",
+  "genre": "Ánime",
+  "franchise": "perla",
+  "number": 1,
+  "exclusive": false,
+  "specialFeatures": "nada",
+  "marketValue": 50
+}
