@@ -1,11 +1,12 @@
 import * as fs from "fs";
 import * as path from "path";
-//import { fileURLToPath } from "url";
+import { fileURLToPath } from "url";
 import { Funko, FunkoData } from "./Funko.js";
 import chalk from "chalk";
 
-//const __filename = fileURLToPath(import.meta.url);
-//const __dirname = path.dirname(__filename);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rutaAUsuarios = path.join(__dirname, "../..", "usuarios");
 
 export class FunkoManager {
   private userDir: string;
@@ -15,11 +16,7 @@ export class FunkoManager {
     if (testing) {
       this.userDir = path.join("/tmp", "usuarios", this.username, "funkos"); // Para pasar las pruebas debemos cambiar el directorio a este
     } else {
-      this.userDir = path.join(
-        "/home/usuario/DSI/prct09-sockets-funko-app-AmartinLin/usuarios",
-        this.username,
-        "funkos",
-      );
+      this.userDir = path.join(rutaAUsuarios, this.username, "funkos");
     }
     if (!fs.existsSync(this.userDir)) {
       fs.mkdirSync(this.userDir, { recursive: true });
@@ -71,7 +68,9 @@ export class FunkoManager {
     const filePath = this.getFunkoFilePath(id);
     if (!fs.existsSync(filePath)) {
       console.log(
-        chalk.red("Error: No se encontró el Funko con ID " + id + " para eliminarlo."),
+        chalk.red(
+          "Error: No se encontró el Funko con ID " + id + " para eliminarlo.",
+        ),
       );
       return false;
     }

@@ -4,19 +4,15 @@ import { FunkoData } from "./Funko.js";
 import { ResponseType } from "./Funko.js";
 //import { join, path } from 'path';
 
+const PORT = 60300;
+
 const app = express();
 app.use(express.json()); // Para parsear el body como JSON
 
 app.get("/funkos", (req, res) => {
-  res.send("probando");
-});
-
-app.get("/funkos/:usuario", (req, res) => {
-  const usuario = req.params.usuario as string;
-  const id = req.query.id; // Capturamos el id desde query
-
+  const usuario = req.query.usuario as string;
+  const id = req.query.id; 
   let respuesta;
-
   if (id) {
     if (Array.isArray(id)) {
       res.status(400).json({
@@ -24,7 +20,6 @@ app.get("/funkos/:usuario", (req, res) => {
         message: "El ID debe ser un único número",
       });
     }
-
     if (isNaN(Number(id))) {
       res.status(400).json({
         success: false,
@@ -35,20 +30,17 @@ app.get("/funkos/:usuario", (req, res) => {
   } else {
     respuesta = executeCommand(usuario, "list", []);
   }
-
-  // Devolver la respuesta
   res.json(respuesta);
 });
 
 app.post("/funkos/:usuario", (req: Request, res: Response) => {
   try {
-    // Validar que el body tenga los datos requeridos
     const usuario = req.params.usuario as string;
     const {
       id,
       name,
-      description,
       type,
+      description,
       genre,
       franchise,
       number,
@@ -57,29 +49,22 @@ app.post("/funkos/:usuario", (req: Request, res: Response) => {
       marketValue,
     } = req.body as FunkoData;
     if (
-      !id ||
-      !name ||
-      !type ||
-      !description ||
-      !genre ||
-      !franchise ||
-      !number ||
-      !exclusive ||
-      !specialFeatures ||
-      !marketValue
+      id === undefined || name === undefined || description === undefined || 
+      type === undefined || genre === undefined || franchise === undefined || 
+      number === undefined || exclusive === undefined || 
+      specialFeatures === undefined || marketValue === undefined
     ) {
-      // 400 => bad request
       res.status(400).json({
         success: false,
-        message: "Faltan campos obligatorios: id, name, type, description, genre, franchise, number, exclusive, special features o marketValue",
+        message: "Faltan campos obligatorios: id, name, type, description, genre, franchise, number, exclusive, specialFeatures o marketValue",
       });
     }
 
     const response: ResponseType = executeCommand(usuario, "add", [
       id.toString(), 
       name,
-      type,
       description,
+      type,
       genre,
       franchise,
       number.toString(),
@@ -103,6 +88,6 @@ app.post("/funkos/:usuario", (req: Request, res: Response) => {
   }
 });
 
-app.listen(60300, () => {
-  console.log("Server is up on port 60300");
+app.listen(PORT, () => {
+  console.log(`Server is up on port ${PORT}`);
 });
