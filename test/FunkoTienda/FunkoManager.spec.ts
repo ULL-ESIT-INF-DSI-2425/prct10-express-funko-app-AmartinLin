@@ -18,7 +18,6 @@ describe('FunkoManager', () => {
   // });
 
   afterAll(() => {
-  
     if (fs.existsSync(testDir)) {
       fs.readdirSync(testDir).forEach(file => {
         const filePath = path.join(testDir, file);

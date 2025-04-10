@@ -1,0 +1,12 @@
+{
+  "id": 2,
+  "name": "Iron Man",
+  "description": "Descripción de Iron Man",
+  "type": "Pop!",
+  "genre": "Películas y TV",
+  "franchise": "Marvel",
+  "number": 2,
+  "exclusive": false,
+  "specialFeatures": "",
+  "marketValue": 30
+}

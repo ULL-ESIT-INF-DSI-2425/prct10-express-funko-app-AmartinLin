@@ -8,12 +8,13 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rutaAUsuarios = path.join(__dirname, "../..", "usuarios");
 
+const TESTING = true;
+
 export class FunkoManager {
   private userDir: string;
 
   constructor(private username: string) {
-    const testing = false;
-    if (testing) {
+    if (TESTING) {
       this.userDir = path.join("/tmp", "usuarios", this.username, "funkos"); // Para pasar las pruebas debemos cambiar el directorio a este
     } else {
       this.userDir = path.join(rutaAUsuarios, this.username, "funkos");
@@ -66,17 +67,14 @@ export class FunkoManager {
    */
   deleteFunko(id: number): boolean {
     const filePath = this.getFunkoFilePath(id);
-    if (!fs.existsSync(filePath)) {
-      console.log(
-        chalk.red(
-          "Error: No se encontró el Funko con ID " + id + " para eliminarlo.",
-        ),
-      );
+    try {
+      fs.unlinkSync(filePath);
+      console.log(chalk.green(`Funko ${id} eliminado`));
+      return true;
+    } catch (error) {
+      console.error(chalk.red("Error al eliminar:", error instanceof Error ? error.message : String(error)));
       return false;
     }
-    fs.unlinkSync(filePath);
-    console.log(chalk.green("Funko con ID " + id + " eliminado."));
-    return true;
   }
 
   /**

@@ -1,0 +1,12 @@
+{
+  "id": 1,
+  "name": "Spider-Man",
+  "description": "Descripción de Spider-Man",
+  "type": "Pop!",
+  "genre": "Películas y TV",
+  "franchise": "Marvel",
+  "number": 1,
+  "exclusive": false,
+  "specialFeatures": "",
+  "marketValue": 20
+}

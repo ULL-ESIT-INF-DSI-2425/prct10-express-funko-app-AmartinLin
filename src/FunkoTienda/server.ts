@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json()); // Para parsear el body como JSON
 
 // Petición de consulta
-app.get("/funkos", (req, res) => {
+app.get("/funkos", (req: Request, res: Response) => {
   const usuario = req.query.usuario as string;
   const id = req.query.id;
   let respuesta;
@@ -116,6 +116,7 @@ app.delete("/funkos/:usuario/:id", (req: Request, res: Response) => {
   res.json(executeCommand(usuario, "remove", [id]));
 });
 
+// Post para editar un funko
 app.patch("/funkos/:usuario/", (req: Request, res: Response) => {
   try {
     const usuario = req.params.usuario as string;

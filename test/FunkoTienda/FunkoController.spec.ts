@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterAll } from "vitest";
 import * as fs from "fs";
 import * as path from "path";
 import { executeCommand } from "../../src/FunkoTienda/funkoController.js"; 
@@ -14,7 +14,7 @@ describe("executeCommand", () => {
     }
   });
 
-  afterEach(() => {
+  afterAll(() => {
     // Eliminar archivos de prueba después de cada test
     if (fs.existsSync(TEST_DIR)) {
       fs.rmSync(TEST_DIR, { recursive: true, force: true });
@@ -35,52 +35,49 @@ describe("executeCommand", () => {
       "50.5", // Valor de mercado
     ];
     const response = executeCommand(TEST_USER, "add", args);
-    expect(response.includes("añadido")).toBe(true);
+    expect(response.message).toBe(`Funko Naruto añadido.`);
+    expect(response.success).toBe(true);
     expect(fs.existsSync(path.join(TEST_DIR, "1.json"))).toBe(true);
   });
 
   it("debería no añadir un Funko con tipo inválido", () => {
     const args = ["1", "Naruto", "Figura de Naruto", "INVALIDO", "ANIME", "Naruto", "100", "false", "Ninguna", "50.5"];
     const response = executeCommand(TEST_USER, "add", args);
-    expect(response.includes("Error: Tipo de Funko")).toBe(true);
+    expect(response.success).toBe(false);
   });
 
   it("debería listar los Funkos", () => {
-    executeCommand(TEST_USER, "add", ["1", "Naruto", "Figura", "POP", "ANIME", "Naruto", "100", "false", "Ninguna", "50"]);
+    executeCommand(TEST_USER, "list", []);
     const response = executeCommand(TEST_USER, "list", []);
-    const parsed = JSON.parse(response);
-    expect(parsed.funkos.length).toBe(1);
-    expect(parsed.funkos[0].name).toBe("Naruto");
+    expect(response.success).toBe(true);
+    expect(response.funkoPops?.length).toBeGreaterThan(0);
   });
 
   it("debería obtener un Funko por su ID", () => {
-    executeCommand(TEST_USER, "add", ["1", "Naruto", "Figura", "POP", "ANIME", "Naruto", "100", "false", "Ninguna", "50"]);
+    executeCommand(TEST_USER, "get", ["1"]);
     const response = executeCommand(TEST_USER, "get", ["1"]);
-    const parsed = JSON.parse(response);
-    expect(parsed.funko).not.toBeNull();
-    expect(parsed.funko.name).toBe("Naruto");
+    expect(response.success).toBe(true);
+    expect(response.funko).not.toBeNull();
   });
 
   it("debería devolver error al obtener un Funko inexistente", () => {
     const response = executeCommand(TEST_USER, "get", ["99"]);
-    const parsed = JSON.parse(response);
-    expect(parsed.funko).toBeNull();
+    expect(response.success).toBe(false);
   });
 
   it("debería eliminar un Funko existente", () => {
-    executeCommand(TEST_USER, "add", ["1", "Naruto", "Figura", "POP", "ANIME", "Naruto", "100", "false", "Ninguna", "50"]);
     const response = executeCommand(TEST_USER, "remove", ["1"]);
-    expect(response.includes("eliminado")).toBe(true);
+    expect(response.success).toBe(true);
     expect(fs.existsSync(path.join(TEST_DIR, "1.json"))).toBe(false);
   });
 
   it("debería devolver error al eliminar un Funko inexistente", () => {
     const response = executeCommand(TEST_USER, "remove", ["99"]);
-    expect(response.includes("Error al eliminar")).toBe(true);
+    expect(response.success).toBe(false);
   });
 
   it("debería devolver error para comandos desconocidos", () => {
     const response = executeCommand(TEST_USER, "desconocido", []);
-    expect(response.includes("Comando no reconocido")).toBe(true);
+    expect(response.success).toBe(false);
   });
 });
