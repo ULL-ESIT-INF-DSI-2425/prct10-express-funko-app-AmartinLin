@@ -1,0 +1,12 @@
+{
+  "id": 2,
+  "name": "juan",
+  "description": "nada",
+  "type": "Pop!",
+  "genre": "Deportes",
+  "franchise": "calamares",
+  "number": 3,
+  "exclusive": false,
+  "specialFeatures": "nada",
+  "marketValue": 99.5
+}

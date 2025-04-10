@@ -122,6 +122,53 @@ export const executeCommand = (
       break;
     }
 
+    case "update": {
+      if (args.length < 10) {
+        response = {
+          success: false,
+          message: "Error: Faltan argumentos para editar el Funko.",
+        } as ResponseType;
+        return response;
+      }
+      const tipo = args[3] as keyof typeof FunkoType;
+      if (!FunkoType[tipo]) {
+        response = {
+          success: false,
+          message: `Error: Tipo de Funko '${args[3]}' inválido.`,
+        } as ResponseType;
+        return response;
+      }
+      const genero = args[4] as keyof typeof FunkoGenre;
+      if (!FunkoGenre[genero]) {
+        response = {
+          success: false,
+          message: `Error: Género de Funko '${args[4]}' inválido.`,
+        } as ResponseType;
+        return response;
+      }
+      const newFunko = new Funko(
+        parseInt(args[0]),
+        args[1],
+        args[2],
+        FunkoType[tipo],
+        FunkoGenre[genero],
+        args[5],
+        parseInt(args[6]),
+        args[7] === "true",
+        args[8],
+        parseFloat(args[9]),
+      );
+      const manager = new FunkoManager(username);
+      const verify: boolean = manager.updateFunko(newFunko);
+      response = {
+        success: verify,
+        message: verify
+          ? `Funko ${args[1]} editado.`
+          : "Error al editar el Funko.",
+      };
+      break;
+    }
+
     default: {
       response = {
         success: false,
